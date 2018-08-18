@@ -1,5 +1,3 @@
-# credit point -- fancy it up -- text, new layout; make comments; get the time to go backwards; get the clock to center regardless if it's a square or not
-
 #coding: latin1
 
 '''
@@ -9,7 +7,7 @@ import pygame, sys, math, datetime
 
 windowMargin            = 30
 windowWidth             = 600
-windowHeight            = 400 #windowHeight
+windowHeight            = 600 #windowHeight
 windowCenter            = windowWidth/2, windowHeight/2
 clockMarginWidth        = 20
 secondColor             = (255, 0, 0)
@@ -68,17 +66,22 @@ hour    = 8
 minute  = 30
 second  = 40
 micro   = 0
+
+# how to get the clock running counter-clockwise:
+# instead of checking if the value is >60 check to see if it is <0.
+# If that's the case, then instead of adding 1 to second, minutes etc., subtract
+# 1 to give it a lesser value, thereby moving the clock backwards. 
 def timeGoesOn():
     global hour, minute, second, micro
     micro += virtualSpeed
-    if micro >= 2: # halve seconds - not micro seconds
-        second += 1
+    if micro >= 2: # half seconds - not micro seconds
+        second -= 1
         micro %= 2
-    if second > 60:
-        minute += 1
+    if second < 0:
+        minute -= 1
         second %= 60
-    if minute > 60:
-        hour += 1
+    if minute < 0:
+        hour -= 1
         minute %= 60
     if hour > 12:
         hour %= 12
